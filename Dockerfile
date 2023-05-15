@@ -38,12 +38,14 @@ WORKDIR /usr/local/src
 # run apt remove -y build-essential 
 
 # new
-FROM ubuntu:latest as deply
-RUN apt upgrade && apt update && apt install -y nginx
-RUN apt install -y build-essential 
+FROM alpine:latest as deply
 COPY --from=build /usr/local/src/nginx-src /usr/local/src/nginx-src
 COPY --from=build /usr/local/src/ngx_waf /usr/local/src/ngx_waf
+RUN apk update
+RUN apk add --no-cache nginx make
 WORKDIR /usr/local/src/nginx-src
 RUN make install
-RUN apt remove -y build-essential 
-RUN apt autoremove -y
+WORKDIR ~
+RUN rm -rf /usr/local/src/nginx-src
+RUN apk del make
+RUN nginx
