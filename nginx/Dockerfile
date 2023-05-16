@@ -1,5 +1,5 @@
 FROM alpine:latest as build
-RUN apk add git && git clone --recursive --depth 1 https://github.com/SpiderLabs/ModSecurity /usr/src/mds && apk del git
+RUN apk add git && git clone --recursive --depth 1 https://hub.fgit.ml/SpiderLabs/ModSecurity.git /usr/src/mds && apk del git
 WORKDIR /usr/src/mds
 RUN  apk add --no-cache --virtual .build-deps \
         autoconf \
